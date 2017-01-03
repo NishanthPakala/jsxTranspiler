@@ -9,9 +9,12 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 20vh;
   padding: 20px;
   color: white;
+  background-image: url("../../me.jpg");
+  background-repeat:  no-repeat;
+  background-position: right top;
 }
 
 .App-intro {
@@ -22,3 +25,30 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+body {
+  font-family: monospace !important;
+}
+
+header {
+  display: block;
+  height: 10vh;
+  overflow: auto;
+  font-size: 22px;
+  color: #f91919;
+  background-color: #f8f8f8;
+}
+
+.container {
+  height: 60vh;
+  display: flex;
+}
+
+pre, textarea {
+  width: 50%;
+  font-size: 22px;
+  margin: 0;
+  padding: 10px;
+}
+
+textarea: focus {outline: 0 }
