@@ -32,10 +32,12 @@ import './reportsfilter.css';
 import datalist from './datalist';
 import DatepickerBundle from './datepickerbundle/datepickerbundle.component';
 class ReportsFilter extends Component {
-  state = {query: {regions:[], countries:[], channels: [], partners:[], branches:[], agents:[]}}
+  state = {query: {regions:[], countries:[], channels: [], partners:[], branches:[], agents:[], dates: []}}
 
-	toggle = (e) => {this.setState((prevState) => ({ [event.target.id] : !prevState[event.target.id] }))}
-
+	toggle = (e) => {
+    this.setState((prevState) =>
+    ({ [event.target.id] : !prevState[event.target.id] }))}
+  submitButtonClick = (e) => this.setState({initialSearchTriggered: true})
   handleClick = (AddItem, identifier, id) => {
     let query = this.state.query;
     switch (AddItem) {
@@ -59,14 +61,14 @@ let { regions, countries, channels, partners, branches, agents } = dataList;
     return (
       <div>
         {regions && <CheckboxToggleGroup name={'Regions'} items={regions} id={'regions'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.regions} query={this.state.query}/>}
-        {this.state.showBubbles && <Bubbles query={this.state.query} handleClick={ this.handleClick }/> }
-        {<DatepickerBundle {...this.props}/>}
+        {this.state.showBubbles && this.state.initialSearchTriggered && <Bubbles query={this.state.query} handleClick={ this.handleClick }/> }
+        {<DatepickerBundle id={'dates'} toggle={this.toggle} expandedState={this.state.dates}/>}
         {countries && <CheckboxToggleGroup name={'Countries'} items={countries} id={'countries'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.countries} query={this.state.query}/>}
         {channels && <CheckboxToggleGroup name={'Channels'} items={channels} id={'channels'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.channels} query={this.state.query}/>}
         {partners && <CheckboxToggleGroup name={'Partners'} items={partners} id={'partners'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.partners} query={this.state.query}/>}
         {branches && <CheckboxToggleGroup name={'Branches'} items={branches} id={'branches'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.branches} query={this.state.query}/>}
         {agents && <CheckboxToggleGroup name={'Agents'} items={agents} id={'agents'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.agents} query={this.state.query}/>}
-
+        <button onClick ={this.submitButtonClick}>Submit</button>
       </div>
     );
   }

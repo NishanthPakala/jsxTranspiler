@@ -28,3 +28,9 @@ textarea: focus {outline: 0 }
 .button-activated {
   color: green
 }
+
+.datepickers-holder {
+  div {
+    margin: 0px
+  }
+}
