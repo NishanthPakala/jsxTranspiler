@@ -12,7 +12,7 @@
   height: 20vh;
   padding: 20px;
   color: white;
-  background-image: url("../../me.jpg");
+  background-image: url("../me.jpg");
   background-repeat:  no-repeat;
   background-position: right top;
 }

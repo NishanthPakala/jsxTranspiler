@@ -1,0 +1,30 @@
+body {
+  margin: 50px;
+  padding: 0;
+  font-family: sans-serif;
+}
+div {
+  margin: 10px;
+}
+.accordion-item {
+  border: 1px solid black;
+}
+.items {
+  border-top: 1px solid black;
+}
+textarea {
+  width: 50%;
+  font-size: 22px;
+  margin: 0;
+  padding: 10px;
+  height: auto
+}
+
+textarea: focus {outline: 0 }
+
+.button-disabled {
+  color: red
+}
+.button-activated {
+  color: green
+}
