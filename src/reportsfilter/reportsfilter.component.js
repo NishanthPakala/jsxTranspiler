@@ -68,7 +68,7 @@ let { regions, countries, channels, partners, branches, agents } = dataList;
         {partners && <CheckboxToggleGroup name={'Partners'} items={partners} id={'partners'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.partners} query={this.state.query}/>}
         {branches && <CheckboxToggleGroup name={'Branches'} items={branches} id={'branches'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.branches} query={this.state.query}/>}
         {agents && <CheckboxToggleGroup name={'Agents'} items={agents} id={'agents'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.agents} query={this.state.query}/>}
-        <button onClick ={this.submitButtonClick}>Submit</button>
+        <button disabled={!this.state.showBubbles} onClick={this.submitButtonClick}>Submit</button>
       </div>
     );
   }
