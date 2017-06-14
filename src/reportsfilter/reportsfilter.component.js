@@ -31,13 +31,18 @@ import React, { PropTypes, Component } from 'react';
 import './reportsfilter.css';
 import datalist from './datalist';
 import DatepickerBundle from './datepickerbundle/datepickerbundle.component';
+import moment from 'moment';
 class ReportsFilter extends Component {
-  state = {query: {regions:[], countries:[], channels: [], partners:[], branches:[], agents:[], dates: []}}
+  state = {query: {regions:[], countries:[], channels: [], partners:[], branches:[], agents:[], dates: []}, startDateToDisplay: '', endDateToDisplay: '', applyDatesButtonDisabled: true }
 
 	toggle = (e) => {
     this.setState((prevState) =>
     ({ [event.target.id] : !prevState[event.target.id] }))}
-  submitButtonClick = (e) => this.setState({initialSearchTriggered: true})
+  submitButtonClick = (e) => {
+    this.setState({initialSearchTriggered: true})
+    this.callService()
+  }
+  callService = () => console.log('Called Service')
   handleClick = (AddItem, identifier, id) => {
     let query = this.state.query;
     switch (AddItem) {
@@ -54,6 +59,33 @@ class ReportsFilter extends Component {
       break;
     }
   }
+  applyDatesButtonClick = () => {this.setState({applyDatesButtonDisabled: true})}
+  handleChangeStartDate = (startDateToDisplay) => this.setState({ startDateToDisplay, checked:'', applyDatesButtonDisabled: false })
+  handleChangeEndDate = (endDateToDisplay) => this.setState({ endDateToDisplay, checked:'', applyDatesButtonDisabled: false })
+  timeFrameCheckboxClicked = (e, name) => {
+    switch (name){
+    case 'today':
+      this.setState({checked: name, startDateToDisplay:'', endDateToDisplay:'', startDate:moment().format('YYYY-MM-DD'), endDate: moment().format('YYYY-MM-DD'), applyDatesButtonDisabled: true})
+    break;
+    case 'oneWeek':
+      this.setState({checked: name, startDateToDisplay:'', endDateToDisplay:'', startDate:moment().subtract(7,'d').format('YYYY-MM-DD'), endDate: moment().format('YYYY-MM-DD'), applyDatesButtonDisabled: true})
+    break;
+    case 'oneMonth':
+      this.setState({checked: name, startDateToDisplay:'', endDateToDisplay:'', startDate:moment().subtract(1,'months').format('YYYY-MM-DD'), endDate: moment().format('YYYY-MM-DD'), applyDatesButtonDisabled: true})
+    break;
+    case 'threeMonths':
+      this.setState({checked: name, startDateToDisplay:'', endDateToDisplay:'', startDate:moment().subtract(3,'months').format('YYYY-MM-DD'), endDate: moment().format('YYYY-MM-DD'), applyDatesButtonDisabled: true})
+    break;
+    case 'oneYear':
+      this.setState({checked: name, startDateToDisplay:'', endDateToDisplay:'', startDate:moment().subtract(1,'years').format('YYYY-MM-DD'), endDate: moment().format('YYYY-MM-DD'), applyDatesButtonDisabled: true})
+    break;
+    case 'all':
+      this.setState({checked: name, startDateToDisplay:'', endDateToDisplay:'', startDate:'', endDate: '', applyDatesButtonDisabled: true})
+    break;
+    default:
+    break;
+  }
+  }
 
   render() {
     const dataList = datalist()
@@ -61,8 +93,8 @@ let { regions, countries, channels, partners, branches, agents } = dataList;
     return (
       <div>
         {regions && <CheckboxToggleGroup name={'Regions'} items={regions} id={'regions'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.regions} query={this.state.query}/>}
-        {this.state.showBubbles && this.state.initialSearchTriggered && <Bubbles query={this.state.query} handleClick={ this.handleClick }/> }
-        {<DatepickerBundle id={'dates'} toggle={this.toggle} expandedState={this.state.dates}/>}
+        {this.state.showBubbles && this.state.initialSearchTriggered && <Bubbles query={this.state.query} handleClick={ this.handleClick } checked={this.state.checked}/> }
+        {<DatepickerBundle id={'dates'} state={this.state} applyDatesButtonClick={this.applyDatesButtonClick} handleChangeStartDate={this.handleChangeStartDate} handleChangeEndDate={this.handleChangeEndDate} checked={this.state.checked} toggle={this.toggle} expandedState={this.state.dates} timeFrameCheckboxClicked={this.timeFrameCheckboxClicked}/>}
         {countries && <CheckboxToggleGroup name={'Countries'} items={countries} id={'countries'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.countries} query={this.state.query}/>}
         {channels && <CheckboxToggleGroup name={'Channels'} items={channels} id={'channels'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.channels} query={this.state.query}/>}
         {partners && <CheckboxToggleGroup name={'Partners'} items={partners} id={'partners'} handleClick={ this.handleClick } toggle={this.toggle} expandedState={this.state.partners} query={this.state.query}/>}
